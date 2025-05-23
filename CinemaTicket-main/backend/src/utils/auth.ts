@@ -1,7 +1,7 @@
 import User from '../resources/user/model'
-import jwt from 'jsonwebtoken'
+import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import bcrypt from 'bcryptjs'
-import { AUTH_CONFIG } from '../config/auth.config'
+import { AUTH_CONFIG } from "../config/auth.config";
 import { Request, Response, NextFunction } from 'express'
 
 interface JwtPayload {
@@ -9,14 +9,15 @@ interface JwtPayload {
 }
 
 export const newToken = (user: any) => {
-    return jwt.sign({ id: user.id }, AUTH_CONFIG.jwtSecret as jwt.Secret, {
-        expiresIn: AUTH_CONFIG.jwtExpiresIn
-    })
-}
+    const secret: Secret = AUTH_CONFIG.jwtSecret;
+    const options: SignOptions = { expiresIn: AUTH_CONFIG.jwtExpiresIn };
+    return jwt.sign({ id: user.id }, secret, options);
+};
 
 export const verifyToken = (token: string): Promise<JwtPayload> => {
+    const secret: Secret = AUTH_CONFIG.jwtSecret;
     return new Promise((resolve, reject) => {
-        jwt.verify(token, AUTH_CONFIG.jwtSecret as jwt.Secret, (err, payload) => {
+        jwt.verify(token, secret, (err, payload) => {
             if (err) return reject(err)
             resolve(payload as JwtPayload)
         })

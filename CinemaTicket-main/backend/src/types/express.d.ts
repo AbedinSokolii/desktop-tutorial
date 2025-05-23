@@ -1,9 +1,9 @@
-import { UserModel } from '../resources/user/model';
+import { User } from '../resources/user/model'; // Adjust path if needed
 
 declare global {
-    namespace Express {
-        interface Request {
-            user?: UserModel;
-        }
+  namespace Express {
+    interface Request {
+      user?: User;
     }
-} 
+  }
+}
