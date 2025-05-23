@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import MovieDetailsModal from './MovieDetailsModal';
 // Use direct image imports
 import product from './assets/movie1.jpeg';
 import product_1 from './assets/borebardha_1.png';
@@ -57,6 +58,7 @@ const products = [
 function Header({ searchQuery }) {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [isSearching, setIsSearching] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -93,7 +95,8 @@ function Header({ searchQuery }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="group relative"
+                className="group relative cursor-pointer"
+                onClick={() => setSelectedMovie(product)}
               >
                 <motion.img
                   whileHover={{ scale: 1.03 }}
@@ -104,10 +107,8 @@ function Header({ searchQuery }) {
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-white">
-                      <a href={product.href}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {product.name}
-                      </a>
+                      <span className="absolute inset-0" />
+                      {product.name}
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">{product.description}</p>
                   </div>
@@ -127,6 +128,11 @@ function Header({ searchQuery }) {
             <p className="text-gray-400 text-lg">No movies found matching "{searchQuery}"</p>
           </motion.div>
         )}
+
+        <MovieDetailsModal 
+          movie={selectedMovie} 
+          onClose={() => setSelectedMovie(null)} 
+        />
       </div>
     </div>
   );

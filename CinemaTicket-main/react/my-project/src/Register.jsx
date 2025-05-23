@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import background from './assets/Bacgroundlogin.jpg';
 import authService from './services/auth.service';
 
@@ -13,6 +13,15 @@ const Register = () => {
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState('');
+
+    useEffect(() => {
+        // Redirect if user is already logged in
+        const currentUser = authService.getCurrentUser();
+        if (currentUser) {
+            navigate('/');
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -25,11 +34,23 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setSuccess('');
         setLoading(true);
 
         try {
             await authService.register(formData);
-            navigate('/'); // Redirect to home page after successful registration
+            setSuccess('Registration successful! Redirecting to login...');
+            // Clear the form
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: ''
+            });
+            // Wait for 2 seconds before redirecting to show the success message
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
         } catch (err) {
             setError(err.message || 'Failed to register');
         } finally {
@@ -49,6 +70,12 @@ const Register = () => {
                 {error && (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                         <span className="block sm:inline">{error}</span>
+                    </div>
+                )}
+
+                {success && (
+                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span className="block sm:inline">{success}</span>
                     </div>
                 )}
 
@@ -97,18 +124,22 @@ const Register = () => {
                             required
                         />
                     </div>
-                    <div className="flex items-start mb-5">
-                        <a href="/login" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    <div className="flex flex-col space-y-4">
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={`text-white bg-color_button hover:bg-color_hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-color_button dark:hover:bg-color_hover dark:focus:ring-blue-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        >
+                            {loading ? 'Registering...' : 'Register'}
+                        </button>
+                        
+                        <Link 
+                            to="/login" 
+                            className="text-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                        >
                             Already have an account? Login here
-                        </a>
+                        </Link>
                     </div>
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className={`text-white bg-color_button hover:bg-color_hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-color_button dark:hover:bg-color_hover dark:focus:ring-blue-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    >
-                        {loading ? 'Registering...' : 'Register'}
-                    </button>
                 </form>
             </div>
         </div>

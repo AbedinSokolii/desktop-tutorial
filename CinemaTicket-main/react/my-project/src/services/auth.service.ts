@@ -58,9 +58,8 @@ class AuthService {
         }
 
         const result = await response.json();
-        if (result.token) {
-            localStorage.setItem('user', JSON.stringify(result));
-        }
+        // Don't store user data after registration
+        // User needs to login explicitly
         return result;
     }
 

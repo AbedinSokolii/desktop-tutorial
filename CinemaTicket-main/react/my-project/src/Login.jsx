@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import background from './assets/Bacgroundlogin.jpg';
 import authService from './services/auth.service';
 
@@ -11,6 +11,14 @@ const Login = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Redirect if user is already logged in
+    const currentUser = authService.getCurrentUser();
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -27,10 +35,10 @@ const Login = () => {
 
     try {
       await authService.login(formData);
-      navigate('/'); // Redirect to home page after successful login
+      // Force a page reload to update all components with the new user state
+      window.location.href = '/';
     } catch (err) {
       setError(err.message || 'Failed to login');
-    } finally {
       setLoading(false);
     }
   };
@@ -74,18 +82,22 @@ const Login = () => {
               required
             />
           </div>
-          <div className="flex items-start mb-5">
-            <a href="/register" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+          <div className="flex flex-col space-y-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className={`text-white bg-color_button hover:bg-color_hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-color_button dark:hover:bg-color_hover dark:focus:ring-blue-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
+            
+            <Link 
+              to="/register" 
+              className="text-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
               Don't have an account? Register here
-            </a>
+            </Link>
           </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className={`text-white bg-color_button hover:bg-color_hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-color_button dark:hover:bg-color_hover dark:focus:ring-blue-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
         </form>
       </div>
     </div>
