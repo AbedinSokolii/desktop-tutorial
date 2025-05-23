@@ -57,7 +57,7 @@ cd backend
 npm install
 npm start
 ```
-The backend server will start on http://localhost:3000
+The backend server will start on http://localhost:3001
 
 #### Frontend Setup
 In a new terminal:

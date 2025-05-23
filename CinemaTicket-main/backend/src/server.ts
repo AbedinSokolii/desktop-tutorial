@@ -6,7 +6,7 @@ import { connect } from "./utils/dbConnect";
 import { signup, signin } from "./utils/auth";
 
 const app: Application = express();
-const port: number = 3000;
+const port: number = 3001;
 
 app.use(cors())
 app.use(json());
