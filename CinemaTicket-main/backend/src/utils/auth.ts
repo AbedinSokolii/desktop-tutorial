@@ -63,7 +63,8 @@ export const signup = async (req: Request, res: Response) => {
                 id: user.id,
                 email: user.email,
                 firstName: user.firstName,
-                lastName: user.lastName
+                lastName: user.lastName,
+                isAdmin: user.isAdmin
             }
         })
     } catch (e) {
@@ -105,7 +106,8 @@ export const signin = async (req: Request, res: Response) => {
                 id: user.id,
                 email: user.email,
                 firstName: user.firstName,
-                lastName: user.lastName
+                lastName: user.lastName,
+                isAdmin: user.isAdmin
             }
         })
     } catch (e) {

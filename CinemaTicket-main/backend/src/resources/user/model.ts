@@ -7,6 +7,7 @@ export interface UserModel extends Model<InferAttributes<UserModel>, InferCreati
     lastName?: string;
     email: string;
     password: string;
+    isAdmin: boolean;
 }
 
 const User = sequelize.define<UserModel>('Users', {
@@ -34,6 +35,11 @@ const User = sequelize.define<UserModel>('Users', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 });
 

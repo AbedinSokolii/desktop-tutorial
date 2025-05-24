@@ -1,7 +1,7 @@
 import logo from './assets/logo.png';
 import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Settings } from "lucide-react";
 import { useState, useEffect } from 'react';
 import authService from './services/auth.service';
 
@@ -12,6 +12,8 @@ function Navbar({ onSearch }) {
   useEffect(() => {
     // Check for user data whenever component mounts or route changes
     const currentUser = authService.getCurrentUser();
+    console.log('Current user data:', currentUser); // Debug log
+    console.log('Is admin?', currentUser?.user?.isAdmin); // Debug log
     setUser(currentUser);
   }, []);
 
@@ -41,6 +43,14 @@ function Navbar({ onSearch }) {
               <div className="text-white">
                 <span className="font-medium">Welcome, {user.user.firstName}</span>
               </div>
+              {user.user.isAdmin && (
+                <Link to="/admin">
+                  <button className="bg-color_button hover:bg-color_hover text-white font-bold py-2 px-4 rounded flex items-center gap-2">
+                    <Settings className="w-5 h-5" />
+                    <span className="sm:max-lg:hidden max-sm:hidden lg:flex">Admin Panel</span>
+                  </button>
+                </Link>
+              )}
               <button
                 onClick={handleLogout}
                 className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded flex items-center gap-2"
