@@ -6,7 +6,7 @@ import { signup, signin, protect } from "./utils/auth";
 import { createMovie, getMovies, updateMovie, deleteMovie } from "./resources/movie/controller";
 
 const app: Application = express();
-const port: number = 3001;
+const port: number = 3002;
 
 app.use(cors())
 app.use(json());

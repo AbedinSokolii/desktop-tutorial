@@ -1,6 +1,6 @@
 import authService from './auth.service';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://localhost:3002';
 
 export interface Movie {
     id?: number;
@@ -12,7 +12,7 @@ export interface Movie {
     duration: string;
     rating: number;
     showTimes: string[];
-    releaseDate: Date;
+    releaseDate: string; // Use string for ISO date compatibility
 }
 
 class MovieService {
@@ -30,13 +30,17 @@ class MovieService {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${currentUser?.token}`
+                ...(currentUser?.token && { 'Authorization': `Bearer ${currentUser.token}` })
             },
             body: JSON.stringify(movie)
         });
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Failed to create movie');
+            let errorText = 'Failed to create movie';
+            try {
+                const error = await response.json();
+                errorText = error.message || errorText;
+            } catch {}
+            throw new Error(errorText);
         }
         return response.json();
     }
@@ -47,13 +51,17 @@ class MovieService {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${currentUser?.token}`
+                ...(currentUser?.token && { 'Authorization': `Bearer ${currentUser.token}` })
             },
             body: JSON.stringify(movie)
         });
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Failed to update movie');
+            let errorText = 'Failed to update movie';
+            try {
+                const error = await response.json();
+                errorText = error.message || errorText;
+            } catch {}
+            throw new Error(errorText);
         }
         return response.json();
     }
@@ -63,14 +71,18 @@ class MovieService {
         const response = await fetch(`${API_URL}/movies/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${currentUser?.token}`
+                ...(currentUser?.token && { 'Authorization': `Bearer ${currentUser.token}` })
             }
         });
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Failed to delete movie');
+            let errorText = 'Failed to delete movie';
+            try {
+                const error = await response.json();
+                errorText = error.message || errorText;
+            } catch {}
+            throw new Error(errorText);
         }
     }
 }
 
-export default new MovieService(); 
+export default new MovieService();

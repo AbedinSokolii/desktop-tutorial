@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RequireAuth from './components/RequireAuth';
 import authService from './services/auth.service';
 import movieService from './services/movie.service';
-import { Pencil, Trash2, Plus, Star } from 'lucide-react';
+import { Pencil, Trash2, Plus, Star, X } from 'lucide-react';
 
 const AdminPanel = () => {
   const [movies, setMovies] = useState([]);
@@ -37,6 +37,18 @@ const AdminPanel = () => {
   useEffect(() => {
     loadMovies();
   }, []);
+
+  // Add useEffect for escape key handler
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isAddingMovie) {
+        resetForm();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isAddingMovie]);
 
   const loadMovies = async () => {
     try {
@@ -170,6 +182,13 @@ const AdminPanel = () => {
     }));
   };
 
+  // Add handleOverlayClick function
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      resetForm();
+    }
+  };
+
   return (
     <RequireAuth>
       <div className="min-h-screen bg-black/90 p-8">
@@ -206,13 +225,21 @@ const AdminPanel = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
+                onClick={handleOverlayClick}
               >
                 <motion.div
                   initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0.9 }}
-                  className="bg-Nav_bar rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+                  className="bg-Nav_bar rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
                 >
+                  <button
+                    onClick={resetForm}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                    aria-label="Close modal"
+                  >
+                    <X size={24} />
+                  </button>
                   <h2 className="text-2xl font-bold text-white mb-6">
                     {editingMovie ? 'Edit Movie' : 'Add New Movie'}
                   </h2>
