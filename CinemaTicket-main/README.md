@@ -1,3 +1,27 @@
+![Last Commit](https://img.shields.io/github/last-commit/AbedinSokolii/desktop-tutorial)
+![Top Language](https://img.shields.io/github/languages/top/AbedinSokolii/desktop-tutorial?logo=javascript)
+![Languages](https://img.shields.io/badge/languages-4-blue)
+
+![Express](https://img.shields.io/badge/express.js-%23404d59.svg?logo=express&logoColor=white)
+![JSON](https://img.shields.io/badge/json-%23000000.svg?logo=json&logoColor=white)
+![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?logo=markdown&logoColor=white)
+![npm](https://img.shields.io/badge/npm-%23CB3837.svg?logo=npm&logoColor=white)
+![autoprefixer](https://img.shields.io/badge/autoprefixer-%23ffb300.svg?logo=autoprefixer&logoColor=white)
+![PostCSS](https://img.shields.io/badge/postcss-%23DD3A0A.svg?logo=postcss&logoColor=white)
+![.env](https://img.shields.io/badge/.env-222.svg)
+![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?logo=javascript&logoColor=black)
+![Nodemon](https://img.shields.io/badge/nodemon-76D04B?logo=nodemon&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?logo=react&logoColor=%2361DAFB)
+![Sequelize](https://img.shields.io/badge/sequelize-52B0E7?logo=sequelize&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?logo=typescript&logoColor=white)
+![ts-node](https://img.shields.io/badge/ts--node-3178C6?logo=ts-node&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?logo=vite&logoColor=white)
+![ESLint](https://img.shields.io/badge/eslint-%234B32C3.svg?logo=eslint&logoColor=white)
+![Swiper](https://img.shields.io/badge/swiper-6332f6?logo=swiper&logoColor=white)
+![date-fns](https://img.shields.io/badge/date--fns-007C83?logo=date-fns&logoColor=white)
+
+
+
 # CinemaTicket 🎬
 
 A modern web application for booking movie tickets online. Built with React, Node.js, and MySQL.
